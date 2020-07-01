@@ -148,7 +148,7 @@ const Dashboard: React.FC = () => {
               >
                 <FoodImageContainer>
                   <Image
-                    style={{ width: 84, height: 84 }}
+                    style={{ width: 80, height: 80 }}
                     source={{ uri: food.thumbnail_url }}
                   />
                 </FoodImageContainer>
