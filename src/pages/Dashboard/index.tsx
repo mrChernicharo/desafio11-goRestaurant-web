@@ -87,8 +87,15 @@ const Dashboard: React.FC = () => {
     loadCategories();
   }, []);
 
-  function handleSelectCategory(id: number): void {
+  async function handleSelectCategory(id: number): Promise<void> {
     // Select / deselect category
+    if (selectedCategory === id) {
+      setSelectedCategory(undefined);
+    } else {
+      const response = await api.get(`categories/${id}`);
+      const category: Category = response.data;
+      setSelectedCategory(category.id);
+    }
   }
 
   return (
