@@ -55,11 +55,22 @@ const Dashboard: React.FC = () => {
 
   async function handleNavigate(id: number): Promise<void> {
     // Navigate do ProductDetails page
+    navigation.navigate('FoodDetails', { id });
   }
 
   useEffect(() => {
     async function loadFoods(): Promise<void> {
       // Load Foods from API
+      const response = await api.get('foods');
+      const foodsList = response.data;
+      const formattedFoodsList: Food[] = foodsList.map(
+        (item: { price: number }) => {
+          return Object.assign(item, {
+            formattedPrice: formatValue(item.price),
+          });
+        },
+      );
+      setFoods(formattedFoodsList);
     }
 
     loadFoods();
@@ -68,6 +79,9 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function loadCategories(): Promise<void> {
       // Load categories from API
+      const response = await api.get('categories');
+      const categoriesList = response.data;
+      setCategories(categoriesList);
     }
 
     loadCategories();
@@ -114,7 +128,7 @@ const Dashboard: React.FC = () => {
                 testID={`category-${category.id}`}
               >
                 <Image
-                  style={{ width: 56, height: 56 }}
+                  style={{ width: 52, height: 52 }}
                   source={{ uri: category.image_url }}
                 />
                 <CategoryItemTitle>{category.title}</CategoryItemTitle>
@@ -134,7 +148,7 @@ const Dashboard: React.FC = () => {
               >
                 <FoodImageContainer>
                   <Image
-                    style={{ width: 88, height: 88 }}
+                    style={{ width: 84, height: 84 }}
                     source={{ uri: food.thumbnail_url }}
                   />
                 </FoodImageContainer>
